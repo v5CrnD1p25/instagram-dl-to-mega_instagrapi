@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 def main():
     LoggingSetup.setup()
     logger.info(f'Started main.py: {time.asctime(time.gmtime())}')
+    LoggingSetup.activate_megapy_logging()
 
     mega = login_to_mega()
     storage_threshold_msg = storage_threshold_exceeded(mega, 0.95)
