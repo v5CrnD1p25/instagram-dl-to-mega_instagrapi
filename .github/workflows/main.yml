@@ -1,0 +1,41 @@
+name: Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      user_ids:
+        description: 'User IDs, separated by space'
+        type: string
+        default: '1320014941'
+
+jobs:
+  main_job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install .
+
+    - name: Run project
+      run: python3 -m instagram_dl_to_mega_instagrapi ${{ inputs.user_ids }}
+      env:
+        GIST_LOGINMGR_ID: ${{ secrets.GIST_LOGINMGR_ID }}
+        GIST_LOGINMGR_PAT: ${{ secrets.GIST_LOGINMGR_PAT }}
+        GIST_LOGINMGR_FILENAME: ${{ secrets.GIST_LOGINMGR_FILENAME }}
+        GIST_LOG_ID: ${{ secrets.GIST_LOG_ID }}
+        GIST_LOG_PAT: ${{ secrets.GIST_LOG_PAT }}
+        GIST_LOG_FILENAME: ${{ secrets.GIST_LOG_FILENAME }}
+        MEGA_EMAIL: ${{ secrets.MEGA_EMAIL }}
+        MEGA_PASSWORD: ${{ secrets.MEGA_PASSWORD }}
+        INSTA_USERNAME: ${{ secrets.INSTA_USERNAME }}
+        INSTA_PASSWORD: ${{ secrets.INSTA_PASSWORD }}
