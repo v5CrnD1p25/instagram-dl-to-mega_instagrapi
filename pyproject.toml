@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=7.0.5"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "instagram_dl_to_mega_instagrapi"
+dependencies = [
+    "instagrapi~=1.16",
+    # Pillow is not included in instagrapi even though it is required by it
+    "Pillow>=8.1.1",
+    "mega.py @ git+https://github.com/v5CrnD1p25/mega.py.git@master",
+    "gist_api @ git+https://github.com/v5CrnD1p25/gist_api.git@main",
+]
+requires-python = ">=3.9"
+dynamic = ["version"]
+
+[tool.setuptools_scm]
