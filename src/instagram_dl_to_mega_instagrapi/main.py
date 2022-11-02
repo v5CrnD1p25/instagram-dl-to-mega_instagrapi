@@ -9,16 +9,15 @@ from mega import Mega
 from instagram_dl_to_mega_instagrapi.handle_exceptions import handle_exception
 from instagram_dl_to_mega_instagrapi.login_to_instagram import LoginManager, login_to_instagram
 from instagram_dl_to_mega_instagrapi.login_to_mega import storage_threshold_exceeded, login_to_mega
-from instagram_dl_to_mega_instagrapi.setup_logging import LoggingSetup
+from instagram_dl_to_mega_instagrapi.setup_logging import setup_logging
 from instagram_dl_to_mega_instagrapi.story_saver import StorySaver
 
 logger = logging.getLogger(__name__)
 
 
 def main():
-    LoggingSetup.setup()
+    setup_logging()
     logger.info(f'Started main.py: {time.asctime(time.gmtime())}')
-    LoggingSetup.activate_megapy_logging()
 
     mega = login_to_mega()
     storage_threshold_msg = storage_threshold_exceeded(mega, 0.95)
@@ -61,6 +60,5 @@ def _get_userids():
 def _cleanup_and_exit(mega: Mega, exitcode: int = 0):
     LoginManager.dump()
     mega.logout_session()
-    with open(LoggingSetup.logfilename, encoding='utf-8') as f:
-        Gist('LOG').write(f.read())
+    logger.info(f'Exiting program with code {exitcode}.')
     sys.exit(exitcode)
